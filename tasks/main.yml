@@ -1,0 +1,24 @@
+---
+- name: install build-essential package
+  apt: name=build-essential update_cache=yes state=present
+
+- name: Download ZeroMQ
+  get_url: url={{ zeromq_download_url }} dest=/tmp/zeromq.zip
+
+- name: Unarchive ZeroMQ tarball
+  unarchive: >
+    copy=no
+    src=/tmp/zeromq.zip
+    dest=/tmp/
+
+- name: Configure ZeroMQ
+  shell: ./configure --prefix={{ zeromq_prefix }} chdir=/tmp/zeromq-{{ zeromq_version }}
+
+- name: Build ZeroMQ
+  shell: make chdir=/tmp/zeromq-{{ zeromq_version }}
+
+- name: Install ZeroMQ
+  shell: make install chdir=/tmp/zeromq-{{ zeromq_version }}
+
+- name: Remove ZeroMQ tarball
+  file: path=/tmp/zeromq.zip state=absent

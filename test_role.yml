@@ -1,0 +1,11 @@
+---
+
+- name: test zeromq library role
+  hosts: all
+  sudo: yes
+  vars:
+    zeromq_version: 4.0.5
+    zeromq_download_url: http://download.zeromq.org/zeromq-{{ zeromq_version }}.tar.gz
+    zeromq_prefix: /usr/local  
+  tasks:
+    - include: 'tasks/main.yml'
